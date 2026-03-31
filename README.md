@@ -127,13 +127,59 @@ sudo firewall-cmd --list-ports
 
 ## Access
 
-Once running, open Jellyfin in a browser:
+### Local network
 
 ```
 http://<server-ip>:8096
 ```
 
 The initial setup wizard will guide you through creating an admin account and adding media libraries.
+
+### Remote Access via Tailscale
+
+[Tailscale](https://tailscale.com/) creates a private encrypted network (WireGuard-based) between your devices. No ports are exposed to the public internet, and it's free for up to 100 devices.
+
+> **Note:** Tailscale runs independently from any existing services (e.g. Cloudflare Tunnel for other apps). It creates its own virtual network interface and won't interfere with anything else.
+
+**Install on the server:**
+
+```bash
+# Fedora
+sudo dnf install tailscale
+sudo systemctl enable --now tailscaled
+sudo tailscale up
+```
+
+Follow the printed URL to authorize the server in your Tailscale admin console.
+
+**Allow Jellyfin through the firewall for Tailscale:**
+
+```bash
+sudo firewall-cmd --zone=trusted --add-interface=tailscale0 --permanent
+sudo firewall-cmd --reload
+```
+
+**Install on your devices:**
+
+- **Linux:** `sudo dnf install tailscale` / `sudo apt install tailscale`
+- **macOS / Windows / iOS / Android:** Download from [tailscale.com/download](https://tailscale.com/download)
+
+Sign in with the same account on each device.
+
+**Access Jellyfin remotely:**
+
+```
+http://<tailscale-ip>:8096
+```
+
+Find your server's Tailscale IP with:
+
+```bash
+tailscale ip -4
+# Returns something like 100.x.x.x
+```
+
+This works from anywhere — no port forwarding, no domain, no TOS concerns with video streaming.
 
 ## Troubleshooting
 
