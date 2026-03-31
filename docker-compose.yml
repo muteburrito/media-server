@@ -1,17 +1,16 @@
 version: "3.8"
 
 services:
-  plex:
-    image: lscr.io/linuxserver/plex:latest
-    container_name: plex
+  jellyfin:
+    image: jellyfin/jellyfin:latest
+    container_name: jellyfin
     network_mode: host
     environment:
-    # Get the ID verified on the machine by running the id command, for my case it was 100
-      - PUID=1000  
+      - PUID=1000
       - PGID=1000
-      - VERSION=docker
       - TZ=Asia/Kolkata
     volumes:
-      - /home/chinmay/plex/config:/config
-      - /home/chinmay/plex/media:/media
+      - /home/chinmay/jellyfin/config:/config:Z
+      - /home/chinmay/jellyfin/cache:/cache:Z
+      - /home/chinmay/jellyfin/media:/media:Z
     restart: unless-stopped
