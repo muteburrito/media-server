@@ -27,7 +27,7 @@ mkdir -p ~/jellyfin/config ~/jellyfin/cache ~/jellyfin/media/movies ~/jellyfin/m
 
 ## Configuration
 
-The [docker-compose.yml](docker-compose.yml) uses the [official Jellyfin image](https://jellyfin.org/docs/general/installation/container/).
+The [docker-compose.yml](docker-compose.yml) uses the [official Jellyfin image](https://jellyfin.org/docs/general/installation/container/) from Docker Hub (`docker.io/jellyfin/jellyfin`).
 
 | Variable | Description |
 |----------|-------------|
@@ -73,7 +73,7 @@ sudo podman run -d \
   -v /home/chinmay/jellyfin/cache:/cache:Z \
   -v /home/chinmay/jellyfin/media:/media:Z \
   --restart unless-stopped \
-  jellyfin/jellyfin:latest
+  docker.io/jellyfin/jellyfin:latest
 ```
 
 ### Option 2: `podman-compose`
